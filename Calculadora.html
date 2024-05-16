@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Calculadora de Precificação</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+            transition: background-color 0.3s, color 0.3s;
+            position: relative;
+        }
+
+        .dark-mode {
+            background-color: #333;
+            color: #f5f5f5;
+        }
+
+        h1 {
+            text-align: center;
+            color: #3483fa;
+            margin-top: 40px;
+        }
+
+        #calculator {
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .dark-mode #calculator {
+            background-color: #444;
+            border-color: #555;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"],
+        input[type="number"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            color: #333;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        .dark-mode input[type="text"],
+        .dark-mode input[type="number"] {
+            background-color: #666;
+            color: #f5f5f5;
+            border-color: #555;
+        }
+
+        button {
+            background-color: #ffdb15;
+            color: #333;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            font-weight: bold;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #f5c000;
+        }
+
+        .dark-mode button {
+            background-color: #ffdb15;
+            color: #333;
+        }
+
+        .result-label {
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        .section {
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #fff;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .dark-mode .section {
+            background-color: #444;
+            border-color: #555;
+        }
+
+        .section h2 {
+            color: #3483fa;
+            cursor: pointer;
+            margin: 0;
+            padding: 0;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            transition: background-color 0.3s, border-color 0.3s;
+        }
+
+        .dark-mode li {
+            background-color: #666;
+            border-color: #555;
+        }
+
+        li button {
+            background-color: #e74c3c;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        li button:hover {
+            background-color: #c0392b;
+        }
+
+        .copy-button {
+            background-color: #3483fa;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .copy-button:hover {
+            background-color: #2868c7;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 10px;
+            border-top: 1px solid #ddd;
+            font-size: 10px;
+            color: #777;
+            transition: color 0.3s, border-color 0.3s;
+        }
+
+        .dark-mode footer {
+            color: #aaa;
+            border-color: #555;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            z-index: 1000;
+        }
+
+        .theme-toggle input {
+            display: none;
+        }
+
+        .theme-toggle label {
+            background-color: #ccc;
+            border-radius: 34px;
+            cursor: pointer;
+            height: 24px;
+            position: relative;
+            width: 50px;
+        }
+
+        .theme-toggle label:before {
+            background-color: #fff;
+            border-radius: 50%;
+            content: "";
+            height: 20px;
+            left: 2px;
+            position: absolute;
+            top: 2px;
+            transition: 0.3s;
+            width: 20px;
+        }
+
+        .theme-toggle input:checked + label {
+            background-color: #3483fa;
+        }
+
+        .theme-toggle input:checked + label:before {
+            transform: translateX(26px);
+        }
+
+        @media screen and (max-width: 600px) {
+            #calculator {
+                padding: 10px;
+            }
+
+            input[type="text"],
+            input[type="number"] {
+                width: calc(100% - 20px);
+            }
+
+            button {
+                width: 100%;
+            }
+
+            .section {
+                margin-top: 10px;
+            }
+
+            footer {
+                font-size: 8px;
+            }
+
+            .theme-toggle {
+                top: 10px;
+                right: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+        <label for="theme-switch"></label>
+    </div>
+    <h1>Calculadora de Precificação</h1>
+
+    <form id="calculator">
+        <label for="product">Produto:</label>
+        <input type="text" id="product" required>
+
+        <label for="selling_price">Preço de Venda (BRL):</label>
+        <input type="number" id="selling_price" step="0.01" required>
+
+        <label for="tax_rate">Alíquota do Imposto (%):</label>
+        <input type="number" id="tax_rate" step="0.01" min="0" max="100" required>
+
+        <label for="ml_fee">Tarifa ML (%):</label>
+        <input type="number" id="ml_fee" step="0.01" min="0" max="100" required>
+
+        <label for="fixed_fee">Taxa Fixa (BRL):</label>
+        <input type="number" id="fixed_fee" step="0.01" required>
+
+        <label for="shipping_cost">Frete (BRL):</label>
+        <input type="number" id="shipping_cost" step="0.01" required>
+
+        <label for="operational">Custos Operacionais (BRL):</label>
+        <input type="number" id="operational" step="0.01" required>
+
+        <label for="cost">Custo (BRL):</label>
+        <input type="number" id="cost" step="0.01" required>
+
+        <button type="button" onclick="calculate()">Calcular</button>
+
+        <label class="result-label" for="profit">Sobra (BRL):</label>
+        <input type="text" id="profit" readonly>
+
+        <label class="result-label" for="profit_margin">Lucro (% sobre o Custo):</label>
+        <input type="text" id="profit_margin" readonly>
+
+        <div id="details" class="section">
+            <h2>Detalhes</h2>
+            <div id="details-content"></div>
+        </div>
+        <div id="interest-list" class="section">
+            <h2>Lista de Interesse</h2>
+            <ul id="product-list-items"></ul>
+        </div>
+    </form>
+
+    <footer>
+        &copy; 2024 - Sua Empresa. Todos os direitos reservados.
+    </footer>
+
+    <script>
+        let products = [];
+
+        function calculate() {
+            const product = document.getElementById("product").value;
+            const sellingPrice = parseFloat(document.getElementById("selling_price").value) || 0;
+            const taxRate = parseFloat(document.getElementById("tax_rate").value) || 0;
+            const mlFee = parseFloat(document.getElementById("ml_fee").value) || 0;
+            const fixedFee = parseFloat(document.getElementById("fixed_fee").value) || 0;
+            const shippingCost = parseFloat(document.getElementById("shipping_cost").value) || 0;
+            const operational = parseFloat(document.getElementById("operational").value) || 0;
+            const cost = parseFloat(document.getElementById("cost").value) || 0;
+
+            const details = document.getElementById("details-content");
+            details.innerHTML = "";
+
+            // Convertendo porcentagem para decimal
+            const taxRateDecimal = taxRate / 100;
+            const mlFeeDecimal = mlFee / 100;
+
+            // Calculando o valor do imposto e tarifa ML em BRL
+            const taxAmount = sellingPrice * taxRateDecimal;
+            const mlFeeAmount = sellingPrice * mlFeeDecimal;
+
+            // Calculando o custo total
+            const totalCost = operational + cost + shippingCost + fixedFee + taxAmount + mlFeeAmount;
+
+            // Calculando a sobra
+            const profit = sellingPrice - totalCost;
+
+            // Calculando a margem de lucro em porcentagem sobre o custo
+            const profitMarginPercentage = (profit / cost) * 100;
+
+            // Detalhes
+            addDetail(details, "Produto", product, "text");
+            addDetail(details, "Preço de Venda", sellingPrice, "currency");
+            addDetail(details, "Alíquota do Imposto", taxAmount, "currency");
+            addDetail(details, "Tarifa ML", mlFeeAmount, "currency");
+            addDetail(details, "Taxa Fixa (BRL)", fixedFee, "currency");
+            addDetail(details, "Frete (BRL)", shippingCost, "currency");
+            addDetail(details, "Custos Operacionais (BRL)", operational, "currency");
+            addDetail(details, "Custo (BRL)", cost, "currency");
+
+            // Exibindo a sobra
+            document.getElementById("profit").value = profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+            // Exibindo a margem de lucro sobre o custo
+            document.getElementById("profit_margin").value = profitMarginPercentage.toFixed(2) + '% (' + profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }) + ')';
+
+            // Adicionando produto à lista de interesse
+            const productData = {
+                product: product,
+                sellingPrice: sellingPrice.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                cost: cost.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' }),
+                profit: profit.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })
+            };
+            products.push(productData);
+            updateProductList();
+        }
+
+        function addDetail(container, label, value, type) {
+            let formattedValue;
+            if (type === "currency") {
+                formattedValue = value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+            } else if (type === "percent") {
+                formattedValue = value.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + '%';
+            } else {
+                formattedValue = value;
+            }
+
+            const detail = document.createElement("div");
+            detail.innerHTML = `<strong>${label}:</strong> ${formattedValue}`;
+            container.appendChild(detail);
+        }
+
+        function updateProductList() {
+            const productList = document.getElementById("product-list-items");
+            productList.innerHTML = "";
+
+            products.forEach((product, index) => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `
+                    <div>
+                        <strong>${product.product}</strong><br>
+                        Preço de Venda: ${product.sellingPrice}<br>
+                        Custo: ${product.cost}<br>
+                        Sobra: ${product.profit}
+                    </div>
+                    <button onclick="removeProduct(${index})">x</button>
+                    <button class="copy-button" onclick="copyToClipboard('${product.product}', '${product.sellingPrice}', '${product.cost}', '${product.profit}')">Copiar</button>`;
+                productList.appendChild(listItem);
+            });
+        }
+
+        function removeProduct(index) {
+            products.splice(index, 1);
+            updateProductList();
+        }
+
+        function copyToClipboard(product, sellingPrice, cost, profit) {
+            const textToCopy = `Produto: ${product}\nPreço de Venda: ${sellingPrice}\nCusto: ${cost}\nSobra: ${profit}`;
+            navigator.clipboard.writeText(textToCopy).then(() => {
+                alert("Informações copiadas para a área de transferência");
+            }).catch(err => {
+                console.error("Erro ao copiar para a área de transferência: ", err);
+            });
+        }
+
+        function toggleTheme() {
+            document.body.classList.toggle("dark-mode");
+        }
+    </script>
+</body>
+</html>
