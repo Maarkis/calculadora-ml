@@ -268,7 +268,7 @@
         <label for="tax_rate">Alíquota do Imposto (%):</label>
         <input type="number" id="tax_rate" step="0.01" min="0" max="100" required>
 
-        <label for="ml_fee">Tarifa ML (%):</label>
+        <label for="ml_fee">Tarifa Plataforma (%):</label>
         <input type="number" id="ml_fee" step="0.01" min="0" max="100" required>
 
         <label for="fixed_fee">Taxa Fixa (BRL):</label>
@@ -325,7 +325,7 @@
             const taxRateDecimal = taxRate / 100;
             const mlFeeDecimal = mlFee / 100;
 
-            // Calculando o valor do imposto e tarifa ML em BRL
+            // Calculando o valor do imposto e Tarifa Plataforma em BRL
             const taxAmount = sellingPrice * taxRateDecimal;
             const mlFeeAmount = sellingPrice * mlFeeDecimal;
 
@@ -342,7 +342,7 @@
             addDetail(details, "Produto", product, "text");
             addDetail(details, "Preço de Venda", sellingPrice, "currency");
             addDetail(details, "Alíquota do Imposto", taxAmount, "currency");
-            addDetail(details, "Tarifa ML", mlFeeAmount, "currency");
+            addDetail(details, "Tarifa Plataforma", mlFeeAmount, "currency");
             addDetail(details, "Taxa Fixa (BRL)", fixedFee, "currency");
             addDetail(details, "Frete (BRL)", shippingCost, "currency");
             addDetail(details, "Custos Operacionais (BRL)", operational, "currency");
